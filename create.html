@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Create New Post - Musa Blog</title>
+  <link rel="stylesheet" href="./assets/css/style.css" />
+
+  <style>
+    .toast {
+      visibility: hidden;
+      min-width: 250px;
+      background: #222;
+      color: #fff;
+      text-align: center;
+      border-radius: 8px;
+      padding: 12px;
+      position: fixed;
+      z-index: 1000;
+      left: 50%;
+      bottom: 30px;
+      transform: translateX(-50%);
+      font-size: 1rem;
+      opacity: 0;
+      transition: opacity 0.4s, bottom 0.4s;
+    }
+    .toast.show {
+      visibility: visible;
+      opacity: 1;
+      bottom: 50px;
+    }
+    .toast.success { background: #28a745; }
+    .toast.error { background: #dc3545; }
+  </style>
+</head>
+
+<body class="light-theme">
+  <div class="container" style="max-width:600px;margin:auto;padding:2rem;">
+    <h1 class="h2">Create New Post</h1>
+    <form id="postForm">
+      <div style="margin-bottom:1rem;">
+        <label for="title" class="h4">Title</label><br>
+        <input type="text" id="title" required style="width:100%;padding:0.5rem;">
+      </div>
+      <div style="margin-bottom:1rem;">
+        <label for="body" class="h4">Content</label><br>
+        <textarea id="body" required style="width:100%;padding:0.5rem;height:150px;"></textarea>
+      </div>
+      <div style="margin-bottom:1rem;">
+        <label for="image" class="h4">Image URL</label><br>
+        <input type="text" id="image" style="width:100%;padding:0.5rem;">
+      </div>
+      <button type="submit" class="btn btn-primary">Create Post</button>
+      
+    </form>
+  </div>
+
+  <div id="toast" class="toast"></div>
+
+  <script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js";
+  import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyCpJ0qObrgMUyqhsHUSHvYzwyYQKbK6HLA",
+    authDomain: "reactnativechat-d3184.firebaseapp.com",
+    projectId: "reactnativechat-d3184",
+    storageBucket: "reactnativechat-d3184.appspot.com",
+    messagingSenderId: "294164835584",
+    appId: "1:294164835584:web:7be43c2542f89ee37017e5",
+    measurementId: "G-Z4ZC6HCBDD"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  let toastTimeout;
+
+  function showToast(message, type="") {
+    const toast = document.getElementById("toast");
+    toast.textContent = message;
+    toast.className = `toast show ${type}`;
+    clearTimeout(toastTimeout);
+    toastTimeout = setTimeout(() => {
+      toast.className = "toast";
+    }, 3000);
+  }
+
+  // CREATE POST
+  document.getElementById("postForm").addEventListener("submit", async function(e) {
+    e.preventDefault();
+    const title = document.getElementById("title").value.trim();
+    const body = document.getElementById("body").value.trim();
+    const image = document.getElementById("image").value.trim() || "./assets/images/blog-1.png";
+    const date = new Date().toISOString().split('T')[0];
+    const createdAt = new Date().toISOString();
+
+    if (!title || !body) {
+      showToast("⚠️ Title & content cannot be empty.", "error");
+      return;
+    }
+
+    const btn = this.querySelector("button[type='submit']");
+    btn.disabled = true;
+    btn.textContent = "Posting...";
+
+    try {
+      await addDoc(collection(db, "posts"), {
+        title,
+        body,
+        image,
+        date,
+        createdAt
+      });
+      showToast("🎉 Post created successfully!", "success");
+      setTimeout(() => {
+        window.location.href = "index.html";
+      }, 2000);
+    } catch (err) {
+      console.error("Error adding document: ", err);
+      showToast("⚠️ Failed to create post.", "error");
+    } finally {
+      btn.disabled = false;
+      btn.textContent = "Create Post";
+    }
+  });
+
+  // LOAD POSTS BELOW THE FORM
+  async function loadPosts() {
+    const querySnapshot = await getDocs(collection(db, "posts"));
+    let postsHTML = "";
+    querySnapshot.forEach((d) => {
+      const post = d.data();
+      postsHTML += `
+        <div style="border:1px solid #ccc;padding:1rem;margin:1rem 0;border-radius:8px;">
+          <h3>${post.title}</h3>
+          <p>${post.body.slice(0, 100)}...</p>
+          <button onclick="deletePost('${d.id}')" style="
+            background:#dc3545;
+            color:white;
+            padding:0.5rem 1rem;
+            border:none;
+            border-radius:4px;
+            cursor:pointer;
+            margin-top:0.5rem;">
+            Delete
+          </button>
+        </div>
+      `;
+    });
+    document.getElementById("postList").innerHTML = postsHTML || "<p style='text-align:center;'>No posts yet.</p>";
+  }
+
+  loadPosts();
+
+  // DELETE POST
+  window.deletePost = async function(id) {
+    if (confirm("Are you sure you want to delete this post?")) {
+      await deleteDoc(doc(db, "posts", id));
+      showToast("🗑️ Post deleted.", "success");
+      loadPosts(); // refresh without full page reload
+    }
+  }
+</script>
+</body>
+</html>

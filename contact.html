@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Contact Me - Musa</title>
+  <link rel="stylesheet" href="./assets/css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;400;700;900&display=swap" rel="stylesheet">
+</head>
+<body class="light-theme">
+
+<header>
+  <div class="container">
+    <nav class="navbar">
+      <a href="index.html">
+        <img src="./assets/images/logo-light.svg" alt="Logo" width="150" class="logo-light">
+        <img src="./assets/images/logo-dark.svg" alt="Logo" width="150" class="logo-dark">
+      </a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <div class="container" style="margin-top: 2rem;">
+    <h1 class="h1" style="text-align: center;">Contact Me</h1>
+
+    <div class="contact-card" style="max-width: 600px; margin: 2rem auto; padding: 2rem; border-radius: 10px; background: var(--card-bg); box-shadow: var(--shadow);">
+      <p style="text-align: center;">
+        I'd love to hear from you! Whether you want to discuss a project, collaborate, or just say hi.
+      </p>
+
+        <form action="https://usebasin.com/f/93e7ec7cf7dd" method="POST" enctype="multipart/form-data" 
+       style="margin-top: 1.5rem;">
+        <div style="margin-bottom: 1rem;">
+          <input type="text" name="name" placeholder="Your Name" required style="width:100%; padding:0.75rem; border-radius:5px; border:3px solid var(--border); background: var(--input-bg); color: var(--text);">
+        </div>
+        <div style="margin-bottom: 1rem;">
+          <input type="email" name="email" placeholder="Your Email" required style="width:100%; padding:0.75rem; border-radius:5px; border:1px solid var(--border); background: var(--input-bg); color: var(--text);">
+        </div>
+        <div style="margin-bottom: 1rem;">
+          <textarea name="message" rows="5" placeholder="Your Message" required style="width:100%; padding:0.75rem; border-radius:5px; border:1px solid var(--border); background: var(--input-bg); color: var(--text);"></textarea>
+        </div>
+        <div style="text-align: center;">
+          <button type="submit" class="btn btn-primary">Send Message</button>
+        </div>
+      </form>
+    </div>
+
+   <div style="text-align:center; margin-top:2rem;">
+        <a href="index.html" class="btn btn-primary" style="text-decoration:none;">Back to Home</a>
+      </div>
+  </div>
+</main>
+
+<footer>
+  <div class="container">
+    <p style="text-align:center;">&copy; 2024 DevBlog</p>
+  </div>
+</footer>
+
+<script src="./assets/js/script.js"></script>
+</body>
+</html>

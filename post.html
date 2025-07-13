@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Post - Musa's Blog</title>
+  <link rel="stylesheet" href="./assets/css/style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    /* Enhanced styles for better UI */
+    .post-container {
+      background: var(--background-secondary);
+      border-radius: 12px;
+      padding: 2rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      margin-bottom: 2rem;
+    }
+    
+    .post-title {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+      color: var(--heading-color);
+    }
+    
+    .post-meta {
+      color: var(--secondary);
+      margin-bottom: 1rem;
+      display: flex;
+      gap: 1rem;
+    }
+    
+    .post-body {
+      line-height: 1.6;
+      font-size: 1.1rem;
+      margin-top: 1.5rem;
+    }
+    
+    .post-body img {
+      max-width: 100%;
+      border-radius: 8px;
+      margin: 1rem 0;
+    }
+    
+    .like-btn {
+      background: var(--background);
+      border: none;
+      padding: 0.6rem 1.2rem;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1.1rem;
+      transition: all 0.3s;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-top: 1.5rem;
+    }
+    
+    .like-btn:hover {
+      background: var(--hover-background);
+    }
+    
+    .like-btn.liked {
+      background: #ff6b81;
+      color: white;
+    }
+    
+    .comments {
+      background: var(--background-secondary);
+      border-radius: 12px;
+      padding: 2rem;
+      margin-top: 2rem;
+    }
+    
+    .comments h3 {
+      font-size: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+    
+    .comment-item {
+      padding: 1rem 0;
+      border-bottom: 1px solid var(--border);
+    }
+    
+    .comment-author {
+      font-weight: bold;
+      color: var(--heading-color);
+    }
+    
+    .comment-time {
+      font-size: 0.8rem;
+      color: var(--secondary);
+      margin-left: 0.8rem;
+    }
+    
+    .comment-text {
+      margin-top: 0.5rem;
+      line-height: 1.5;
+    }
+    
+    .no-comments {
+      color: var(--secondary);
+      font-style: italic;
+      padding: 1rem 0;
+    }
+    
+    .comment-form {
+      margin-top: 2rem;
+    }
+    
+    .comment-form textarea {
+      width: 100%;
+      padding: 0.8rem;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      margin-top: 0.5rem;
+      background: var(--background);
+      color: var(--foreground);
+      min-height: 100px;
+      resize: vertical;
+    }
+    
+    .comment-form button {
+      margin-top: 1rem;
+      padding: 0.6rem 1.5rem;
+      border: none;
+      background: var(--primary);
+      color: white;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: background 0.2s;
+    }
+    
+    .comment-form button:hover {
+      background: var(--primary-dark);
+    }
+    
+    .error-message {
+      color: #ff4444;
+      margin-top: 0.5rem;
+      font-size: 0.9rem;
+    }
+    
+    .success-message {
+      color: #00C851;
+      margin-top: 0.5rem;
+      font-size: 0.9rem;
+    }
+    
+    .loading {
+      color: var(--secondary);
+      font-style: italic;
+    }
+  </style>
+</head>
+<body class="light-theme">
+
+<header>
+  <div class="container">
+    <nav class="navbar">
+      <a href="index.html">
+        <img src="./assets/images/logo-light.svg" alt="Logo" width="150" class="logo-light">
+        <img src="./assets/images/logo-dark.svg" alt="Logo" width="150" class="logo-dark">
+      </a>
+    </nav>
+  </div>
+</header>
+
+<div class="container">
+  <a href="index.html" class="back-button">← Back to Posts</a>
+  
+  <article class="post-container">
+    <h1 class="post-title" id="postTitle">Loading Post...</h1>
+    <div class="post-meta">
+      <span class="post-topic" id="postTopic">General</span>
+      <span>•</span>
+      <time class="post-date" id="postDate">Just now</time>
+    </div>
+    
+    <div class="post-body" id="postContent">
+      <p class="loading">Loading content...</p>
+    </div>
+    
+    <button id="likeBtn" class="like-btn">
+      <span id="likeIcon">🤍</span>
+      <span id="likeCount">0</span> Likes
+    </button>
+  </article>
+
+  <section class="comments">
+    <h3>Comments</h3>
+    <div id="commentList">
+      <p class="no-comments">Loading comments...</p>
+    </div>
+    <div id="commentError" class="error-message"></div>
+    
+    <div class="comment-form">
+      <h4>Leave a comment</h4>
+      <textarea id="commentText" placeholder="Share your thoughts..."></textarea>
+      <button id="submitComment">Post Comment</button>
+      <div id="commentSubmitError" class="error-message"></div>
+      <div id="commentSubmitSuccess" class="success-message"></div>
+    </div>
+  </section>
+</div>
+
+<footer>
+  <div class="container">
+    <p style="text-align:center;">&copy; 2024 Musa's DevBlog</p>
+  </div>
+</footer>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js";
+import { 
+  getFirestore, 
+  doc, 
+  getDoc, 
+  updateDoc, 
+  arrayUnion, 
+  arrayRemove, 
+  collection, 
+  addDoc, 
+  query, 
+  where, 
+  orderBy, 
+  onSnapshot, 
+  serverTimestamp,
+  Timestamp 
+} from "https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore.js";
+
+// Firebase configuration
+const firebaseConfig = {
+  apiKey: "AIzaSyCpJ0qObrgMUyqhsHUSHvYzwyYQKbK6HLA",
+  authDomain: "reactnativechat-d3184.firebaseapp.com",
+  projectId: "reactnativechat-d3184",
+  storageBucket: "reactnativechat-d3184.appspot.com",
+  messagingSenderId: "294164835584",
+  appId: "1:294164835584:web:7be43c2542f89ee37017e5"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+// Get post ID from URL
+const urlParams = new URLSearchParams(window.location.search);
+const postId = urlParams.get('id');
+const username = localStorage.getItem('username') || 'Anonymous';
+const userEmail = localStorage.getItem('email') || 'guest';
+
+// DOM Elements
+const postTitle = document.getElementById('postTitle');
+const postTopic = document.getElementById('postTopic');
+const postDate = document.getElementById('postDate');
+const postContent = document.getElementById('postContent');
+const likeBtn = document.getElementById('likeBtn');
+const likeIcon = document.getElementById('likeIcon');
+const likeCount = document.getElementById('likeCount');
+const commentList = document.getElementById('commentList');
+const commentError = document.getElementById('commentError');
+const commentText = document.getElementById('commentText');
+const submitComment = document.getElementById('submitComment');
+const commentSubmitError = document.getElementById('commentSubmitError');
+const commentSubmitSuccess = document.getElementById('commentSubmitSuccess');
+
+// Load post content
+async function loadPost() {
+  if (!postId) {
+    postTitle.textContent = 'Post not found';
+    postContent.innerHTML = '<p class="error-message">No post ID specified in URL</p>';
+    return;
+  }
+
+  try {
+    const postRef = doc(db, 'posts', postId);
+    const postSnap = await getDoc(postRef);
+
+    if (!postSnap.exists()) {
+      postTitle.textContent = 'Post not found';
+      postContent.innerHTML = '<p class="error-message">The requested post does not exist</p>';
+      return;
+    }
+
+    const postData = postSnap.data();
+    
+    // Update post details
+    postTitle.textContent = postData.title || 'Untitled Post';
+    postTopic.textContent = postData.topic || 'General';
+    postDate.textContent = postData.date || 'Unknown date';
+    
+    // Format post content (preserve line breaks)
+    const formattedContent = (postData.body || 'No content available')
+      .replace(/\n/g, '<br>')
+      .replace(/\\n/g, '<br>');
+    postContent.innerHTML = formattedContent;
+
+    // Update like button
+    const likes = postData.likes || [];
+    likeCount.textContent = likes.length;
+    updateLikeButton(likes.includes(userEmail));
+
+  } catch (error) {
+    console.error('Error loading post:', error);
+    postTitle.textContent = 'Error loading post';
+    postContent.innerHTML = '<p class="error-message">Failed to load post content. Please try again later.</p>';
+  }
+}
+
+// Update like button state
+function updateLikeButton(isLiked) {
+  if (isLiked) {
+    likeBtn.classList.add('liked');
+    likeIcon.textContent = '❤️';
+  } else {
+    likeBtn.classList.remove('liked');
+    likeIcon.textContent = '🤍';
+  }
+}
+
+// Handle like button click
+likeBtn.addEventListener('click', async () => {
+  if (!postId) return;
+
+  try {
+    const postRef = doc(db, 'posts', postId);
+    const postSnap = await getDoc(postRef);
+    
+    if (!postSnap.exists()) return;
+    
+    const postData = postSnap.data();
+    const likes = postData.likes || [];
+    
+    if (likes.includes(userEmail)) {
+      await updateDoc(postRef, {
+        likes: arrayRemove(userEmail)
+      });
+    } else {
+      await updateDoc(postRef, {
+        likes: arrayUnion(userEmail)
+      });
+    }
+  } catch (error) {
+    console.error('Error updating likes:', error);
+  }
+});
+
+// Load comments
+function loadComments() {
+  if (!postId) {
+    commentList.innerHTML = '<p class="error-message">No post specified</p>';
+    return;
+  }
+
+  commentList.innerHTML = '<p class="loading">Loading comments...</p>';
+  commentError.textContent = '';
+
+  const commentsQuery = query(
+    collection(db, 'comments'),
+    where('postId', '==', postId),
+    orderBy('timestamp', 'desc')
+  );
+
+  return onSnapshot(commentsQuery, 
+    (snapshot) => {
+      if (snapshot.empty) {
+        commentList.innerHTML = '<p class="no-comments">No comments yet. Be the first to comment!</p>';
+        return;
+      }
+
+      commentList.innerHTML = '';
+      snapshot.forEach((doc) => {
+        const comment = doc.data();
+        displayComment(comment);
+      });
+    },
+    (error) => {
+      handleCommentError(error);
+    }
+  );
+}
+
+// Display a single comment
+function displayComment(comment) {
+  const commentDiv = document.createElement('div');
+  commentDiv.className = 'comment-item';
+  
+  // Format timestamp
+  let timeString = 'Just now';
+  if (comment.timestamp) {
+    try {
+      const date = comment.timestamp.toDate 
+        ? comment.timestamp.toDate() 
+        : new Date(comment.timestamp.seconds * 1000);
+      timeString = date.toLocaleString();
+    } catch (e) {
+      console.warn('Error formatting timestamp:', e);
+    }
+  }
+
+  commentDiv.innerHTML = `
+    <div class="comment-header">
+      <span class="comment-author">${comment.username || 'Anonymous'}</span>
+      <span class="comment-time">${timeString}</span>
+    </div>
+    <div class="comment-text">${comment.text || ''}</div>
+  `;
+  commentList.appendChild(commentDiv);
+}
+
+// Handle comment errors
+function handleCommentError(error) {
+  console.error('Comments error:', error);
+  commentList.innerHTML = '';
+
+  let errorMessage = 'Failed to load comments';
+  
+  if (error.code === 'permission-denied') {
+    errorMessage = 'You don\'t have permission to view comments';
+  } else if (error.code === 'unavailable') {
+    errorMessage = 'Network error. Please check your connection';
+  } else if (error.message.includes('index')) {
+    errorMessage = 'Database index missing. Please try again later';
+  }
+
+  commentError.textContent = errorMessage;
+}
+
+// Handle comment submission
+submitComment.addEventListener('click', async () => {
+  const text = commentText.value.trim();
+  
+  if (!text) {
+    commentSubmitError.textContent = 'Please enter a comment';
+    return;
+  }
+
+  if (!postId) {
+    commentSubmitError.textContent = 'No post specified';
+    return;
+  }
+
+  commentSubmitError.textContent = '';
+  submitComment.disabled = true;
+  submitComment.textContent = 'Posting...';
+
+  try {
+    await addDoc(collection(db, 'comments'), {
+      postId: postId,
+      username: username,
+      text: text,
+      timestamp: serverTimestamp()
+    });
+
+    commentText.value = '';
+    commentSubmitSuccess.textContent = 'Comment posted successfully!';
+    setTimeout(() => {
+      commentSubmitSuccess.textContent = '';
+    }, 3000);
+  } catch (error) {
+    console.error('Error posting comment:', error);
+    commentSubmitError.textContent = 'Failed to post comment. Please try again.';
+  } finally {
+    submitComment.disabled = false;
+    submitComment.textContent = 'Post Comment';
+  }
+});
+
+// Initialize everything when page loads
+document.addEventListener('DOMContentLoaded', () => {
+  loadPost();
+  loadComments();
+  
+  // Set up real-time listener for likes
+  if (postId) {
+    const postRef = doc(db, 'posts', postId);
+    onSnapshot(postRef, (doc) => {
+      if (doc.exists()) {
+        const likes = doc.data().likes || [];
+        likeCount.textContent = likes.length;
+        updateLikeButton(likes.includes(userEmail));
+      }
+    });
+  }
+});
+</script>
+
+</body>
+</html>

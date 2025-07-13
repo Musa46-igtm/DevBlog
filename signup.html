@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sign Up - DevBlog</title>
+  <link rel="stylesheet" href="./assets/css/style.css">
+  <style>
+    body {
+      font-family: "Inter", sans-serif;
+      background: #f9f9f9;
+      color: #333;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 1rem;
+    }
+    .signup-container {
+      background: white;
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+      max-width: 400px;
+      width: 100%;
+    }
+    .signup-container h2 {
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+    .signup-container input {
+      width: 100%;
+      padding: 0.75rem;
+      margin: 0.5rem 0;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      outline: none;
+    }
+    .signup-container button {
+      width: 100%;
+      padding: 0.75rem;
+      margin-top: 1rem;
+      background: #27ae60;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: background 0.3s;
+    }
+    .signup-container button:hover {
+      background: #219150;
+    }
+    .toast {
+      position: fixed;
+      bottom: 1rem;
+      right: 1rem;
+      background: #27ae60;
+      color: white;
+      padding: 0.75rem 1.25rem;
+      border-radius: 5px;
+      opacity: 0;
+      transition: opacity 0.4s;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+      z-index: 9999;
+    }
+    .toast.show {
+      opacity: 1;
+    }
+        p.login-link {
+      text-align: center;
+      margin-top: 1rem;
+    }
+    p.login-link a {
+      color: #2980b9;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+
+<div class="signup-container">
+  <h2>Create Your Account</h2>
+  <form id="signupForm">
+    <input type="text" id="username" placeholder="Username" required>
+    <input type="email" id="email" placeholder="Email" required>
+    <input type="password" id="password" placeholder="Password" required>
+    <button type="submit">Sign Up</button>
+        <p class="login-link">Already have an account? <a href="signup.html">Log in</a></p>
+</div>
+  </form>
+</div>
+
+<div id="toast" class="toast"></div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js";
+import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js";
+import { getFirestore, setDoc, doc } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyCpJ0qObrgMUyqhsHUSHvYzwyYQKbK6HLA",
+  authDomain: "reactnativechat-d3184.firebaseapp.com",
+  projectId: "reactnativechat-d3184",
+  storageBucket: "reactnativechat-d3184.appspot.com",
+  messagingSenderId: "294164835584",
+  appId: "1:294164835584:web:7be43c2542f89ee37017e5",
+  measurementId: "G-Z4ZC6HCBDD"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth();
+const db = getFirestore(app);
+
+function showToast(message) {
+  const toast = document.getElementById("toast");
+  toast.textContent = message;
+  toast.classList.add("show");
+  setTimeout(() => toast.classList.remove("show"), 3000);
+}
+
+document.getElementById("signupForm").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const username = document.getElementById("username").value.trim();
+  const email = document.getElementById("email").value.trim();
+  const password = document.getElementById("password").value;
+
+  try {
+    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+    const user = userCredential.user;
+
+    // ✅ Save username to Firestore
+    await setDoc(doc(db, "users", user.uid), {
+      username,
+      email
+    });
+
+    // ✅ Also save username to localStorage so index.html can use it
+    localStorage.setItem("username", username);
+
+    showToast("✅ Signup successful!");
+    setTimeout(() => {
+      window.location.href = "index.html";
+    }, 1500);
+  } catch (error) {
+    console.error(error);
+    showToast("❌ " + error.message);
+  }
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DevBlog - Musa's Personal Blog | Web & Software Development</title>
+  <meta name="description" content="Professional blog by Musa covering web development, software engineering, accessibility, and performance optimization.">
+  <meta name="keywords" content="web development, software development, accessibility, performance, database, react, node, python">
+  <meta name="author" content="Musa">
+  
+  <!-- Canonical URL -->
+  <link rel="canonical" href="https://yourblogdomain.com">
+  
+  <!-- Favicon -->
+  <link rel="shortcut icon" href="./assets/images/favicon.ico" type="image/x-icon">
+  
+  <!-- Preload critical resources -->
+  <link rel="preload" href="./assets/css/style.css" as="style">
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700;800;900&display=swap" as="font" crossorigin>
+  
+  <!-- CSS -->
+  <link rel="stylesheet" href="./assets/css/style.css">
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  
+  <!-- Open Graph / Social Media Meta Tags -->
+  <meta property="og:title" content="DevBlog - Musa's Personal Blog">
+  <meta property="og:description" content="Professional blog by Musa covering web development, software engineering, accessibility, and performance optimization.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://yourblogdomain.com">
+  <meta property="og:image" content="https://yourblogdomain.com/assets/images/hero.png">
+</head>
+
+<body class="light-theme">
+
+  <!-- Skip to content link for accessibility -->
+
+  <header>
+    <div class="container">
+      <nav class="navbar" aria-label="Main navigation">
+        <a href="index.html" aria-label="Home">
+          <img src="./assets/images/logo-light.svg" alt="DevBlog logo" width="150" class="logo-light">
+          <img src="./assets/images/logo-dark.svg" alt="DevBlog logo" width="150" class="logo-dark">
+        </a>
+
+        
+
+          <button class="nav-menu-btn" aria-label="Open menu" aria-expanded="false">
+            <ion-icon name="menu-outline" aria-hidden="true"></ion-icon>
+          </button>
+        </div>
+
+        <div class="flex-wrapper">
+          <ul class="desktop-nav">
+            <li><a href="index.html" class="nav-link">Home</a></li>
+            <li><a href="about.html" class="nav-link">About Me</a></li>
+            <li><a href="contact.html" class="nav-link">Contact</a></li>
+          </ul>
+
+          <button class="theme-btn theme-btn-desktop light" aria-label="Toggle theme">
+            <ion-icon name="moon" class="moon" aria-hidden="true"></ion-icon>
+            <ion-icon name="sunny" class="sun" aria-hidden="true"></ion-icon>
+          </button>
+        </div>
+
+        <div class="mobile-nav" aria-hidden="true">
+          <button class="nav-close-btn" aria-label="Close menu">
+            <ion-icon name="close-outline" aria-hidden="true"></ion-icon>
+          </button>
+
+          <div class="wrapper">
+            <p class="h3 nav-title">Main Menu</p>
+            <ul>
+              <div class="nav-item">
+                <span id="usernameDisplay">👋 Hi, Guest</span>
+                <button onclick="logout()" style="margin-left: 1rem;">Logout</button>
+              </div>
+              <li class="nav-item"><a href="index.html" class="nav-link">Home</a></li>
+              <li class="nav-item"><a href="about.html" class="nav-link">About Me</a></li>
+              <li class="nav-item"><a href="contact.html" class="nav-link">Contact</a></li>
+              <li class="nav-item"><a href="create.html" class="nav-link">Create</a></li>
+              <li class="nav-item"><a href="delete.html" class="nav-link">Delete</a></li>
+            </ul>
+          </div>
+
+          <div>
+            <p class="h3 nav-title">Topics</p>
+            <ul>
+              <li class="nav-item"><a href="data.html" class="nav-link">Database</a></li>
+              <li class="nav-item"><a href="access.html" class="nav-link">Accessibility</a></li>
+              <li class="nav-item"><a href="web.html" class="nav-link">Web Performance</a></li>
+              <li class="nav-item"><a href="android.html" class="nav-link">Android Development</a></li>
+              <li class="nav-item"><a href="flutter.html" class="nav-link">Flutter SDK</a></li>
+              <li class="nav-item"><a href="react.html" class="nav-link">React.js</a></li>
+              <li class="nav-item"><a href="node.html" class="nav-link">Node.js</a></li>
+              <li class="nav-item"><a href="python.html" class="nav-link">Python Web</a></li>
+              <li class="nav-item"><a href="struct.html" class="nav-link">Data Structures</a></li>
+              <li class="nav-item"><a href="dev.html" class="nav-link">DevOps</a></li>
+              <li class="nav-item"><a href="Ai.html" class="nav-link">AI & ML</a></li>
+              <li class="nav-item"><a href="cyber.html" class="nav-link">CyberSecurity</a></li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+    </div>
+    
+    <div class="search-container">
+      <input type="text" id="searchBox" placeholder="Search..." aria-label="Search blog posts">
+      <div id="searchResults" aria-live="polite"></div>
+    </div>
+  </header>
+
+  <main id="main-content">
+    <div class="hero">
+      <div class="container">
+        <div class="left">
+          <h1 class="h1">
+            Hi, I'm <b>Musa</b>.
+            <br>Web Developer & Software Developer.
+          </h1>
+
+          <p class="h3">
+            Specialized in <abbr title="Accessibility">a11y</abbr>
+            and Core Web Vitals
+          </p>
+
+          <div class="btn-group">
+            <a href="contact.html" class="btn btn-primary">Contact Me</a>
+            <a href="about.html" class="btn btn-secondary">About Me</a>
+          </div>
+        </div>
+
+        <div class="right">
+          <div class="pattern-bg"></div>
+          <div class="img-box">
+            <img src="./assets/images/hero.png" alt="Musa" class="hero-img" loading="lazy">
+            <div class="shape shape-1"></div>
+            <div class="shape shape-2"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="main">
+      <div class="container">
+        <div class="blog">
+          <h2 class="h2">Latest Blog Posts</h2>
+          <div class="blog-card-group"></div>
+          <div class="load-more-container">
+            <button class="btn btn-primary show-more">Show more</button>
+          </div>
+        </div>
+
+        <aside class="aside" aria-label="Sidebar">
+          <div class="topics">
+            <h2 class="h2">Topics</h2>
+            <a href="data.html" class="topic-btn">
+              <div class="icon-box">
+                <ion-icon name="server-outline" aria-hidden="true"></ion-icon>
+              </div>
+              <p>Database</p>
+            </a>
+
+            <a href="access.html" class="topic-btn">
+              <div class="icon-box">
+                <ion-icon name="accessibility-outline" aria-hidden="true"></ion-icon>
+              </div>
+              <p>Accessibility</p>
+            </a>
+
+            <a href="web.html" class="topic-btn">
+              <div class="icon-box">
+                <ion-icon name="rocket-outline" aria-hidden="true"></ion-icon>
+              </div>
+              <p>Web Performance</p>
+            </a>
+          </div>
+
+          <div class="tags">
+            <h2 class="h2">Tags</h2>
+            <div class="wrapper">
+              <button class="hashtag">#mongodb</button>
+              <button class="hashtag">#nodejs</button>
+              <button class="hashtag">#a11y</button>
+              <button class="hashtag">#mobility</button>
+              <button class="hashtag">#inclusion</button>
+              <button class="hashtag">#webperf</button>
+              <button class="hashtag">#optimize</button>
+              <button class="hashtag">#performance</button>
+            </div>
+          </div>
+
+          <div class="contact">
+            <h2 class="h2">Let's Talk</h2>
+            <div class="wrapper">
+              <p>
+                Do you want to learn more about how I can help your company overcome problems? Let us have a conversation.
+              </p>
+              <ul class="social-link">
+                <li>
+                  <a href="#" class="icon-box discord" aria-label="Discord">
+                    <ion-icon name="logo-discord" aria-hidden="true"></ion-icon>
+                  </a>
+                </li>
+                <li>
+                  <a href="#" class="icon-box twitter" aria-label="Twitter">
+                    <ion-icon name="logo-twitter" aria-hidden="true"></ion-icon>
+                  </a>
+                </li>
+                <li>
+                  <a href="#" class="icon-box facebook" aria-label="Facebook">
+                    <ion-icon name="logo-facebook" aria-hidden="true"></ion-icon>
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="newsletter">
+  <div class="newsletter-container">
+    <div class="newsletter-content">
+     
+      </div>
+      
+      <div class="newsletter-text">
+        <h2 class="h3">Developer Insights</h2>
+        <p class="newsletter-description">Get weekly articles on web development, performance, and accessibility</p>
+        
+        <form action="https://usebasin.com/f/93e7ec7cf7dd" method="POST" enctype="multipart/form-data" class="newsletter-form">
+          <div class="input-group">
+               <input type="name" name="name" placeholder="Your Name" required style="width:100%; height: 30px; padding:1rem; margin:0.5rem 0; border-radius:1rem;">
+     
+            <input type="email" name="email" placeholder="Your email" required style="width:100%; height: 30px; padding:1rem; margin:1rem 0; border-radius:1rem;">
+            <button type="submit" class="btn btn-primary">
+              Join Now
+            </button>
+          </div>
+          <p class="privacy-note">
+            <ion-icon name="shield-checkmark-outline" aria-hidden="true"></ion-icon>
+            No spam. Unsubscribe anytime.
+          </p>
+        </form>
+      </div>
+    </div>
+  </div>
+</div> 
+        </aside>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="wrapper">
+        <a href="index.html" class="footer-logo">
+          <img src="./assets/images/logo-light.svg" alt="DevBlog Logo" width="150" class="logo-light" loading="lazy">
+          <img src="./assets/images/logo-dark.svg" alt="DevBlog Logo" width="150" class="logo-dark" loading="lazy">
+        </a>
+        <p class="footer-text">
+          Learn about Web accessibility, Web performance, Database management and many more.
+        </p>
+      </div>
+
+      <div class="wrapper">
+        <p class="footer-title">Quick Links</p>
+        <ul>
+          <li><a href="about.html" class="footer-link">About Me</a></li>
+          <li><a href="contact.html" class="footer-link">Contact Me</a></li>
+        </ul>
+      </div>
+
+      <div class="wrapper">
+        <p class="footer-title">Legal Stuff</p>
+        <ul>
+          <li><a href="privacy.html" class="footer-link">Privacy Notice</a></li>
+          <li><a href="cookie.html" class="footer-link">Cookie Policy</a></li>
+          <li><a href="terms.html" class="footer-link">Terms Of Use</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <p class="copyright">
+      &copy; Copyright <span id="current-year"></span> <a href="index.html">DevBlog</a>
+    </p>
+  </footer>
+
+  <!-- JavaScript -->
+  <script src="./assets/js/script.js" defer></script>
+  <script type="module" src="./assets/js/firebase.js" defer></script>
+  <script type="module" src="./assets/js/blog.js" defer></script>
+  
+  <!-- Ion Icons -->
+  <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+</body>
+</html>
